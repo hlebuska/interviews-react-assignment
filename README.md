@@ -9,7 +9,7 @@ These will be extra points for you!
 
 ## Introduction
 
-This is a technical interview exercise for **gotech**'s Engineering team. In the following sections, you will find a number of challenges that test your React, TypeScript, and frontend development skills. You **DO NOT need to complete 100% of them**: choose the challenges that best demonstrate your expertise and complete them to a high standard.
+This is a technical interview exercise for **Gotech**'s Engineering team. In the following sections, you will find a number of challenges that test your React, TypeScript, and frontend development skills. You **DO NOT need to complete 100% of them**: choose the challenges that best demonstrate your expertise and complete them to a high standard.
 
 ⏱️ You have **1 week** to submit your solution. We understand you have other commitments, so work at your own pace. We evaluate based on **code quality, architecture, and problem-solving approach**, not speed.
 
