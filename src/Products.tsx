@@ -13,6 +13,7 @@ import {
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { HeavyComponent } from './HeavyComponent.tsx';
+import { useRef } from 'react';
 
 export type Product = {
   id: number;
@@ -43,31 +44,43 @@ export const Products = ({ onCartChange }: { onCartChange: (cart: Cart) => void 
 
   const [products, setProducts] = useState<Product[]>([]);
   const [page, setPage] = useState(0);
-  const [loading, setLoading] = useState(false);
+  const fetchedPagesRef = useRef<Set<number>>(new Set()); //to avoid dublicate fetches, strict mode bug
 
+  const loadingRef = useRef(false);
+
+  // todo: debounce? 
   const handleScroll = () => {
+      if (loadingRef.current) return;
+
       const lowestFrame = document.documentElement.scrollHeight - document.documentElement.clientHeight
 
-      const threshold = document.documentElement.clientHeight * 0.02
+      const threshold = document.documentElement.clientHeight * 0.2
+
 
       if (document.documentElement.scrollTop >= lowestFrame - threshold) {
-        console.log('Reached bottom')
-        if (!loading) {
-          setPage((prevPage) => prevPage + 1);
-        }
+        console.log('fetch page', page + 1);
+        setPage((prevPage) => prevPage + 1);
+        loadingRef.current = true;
       }
   }
-
   useEffect(() => {
       document.addEventListener('scroll', handleScroll);
     return () => document.removeEventListener('scroll', handleScroll)
   }, []);
 
   useEffect(() => {
-    setLoading(true);
-    fetchProducts(page).then(newProducts => setProducts([...products, ...newProducts])).then(() => setLoading(false));
-  }, [page]);
+    fetchProducts(page).then(newProducts => {
+      //check if page was already fetched
+      if( fetchedPagesRef.current.has(page)) {
+        loadingRef.current = false;
+        return;
+      }
 
+      setProducts(prevProducts => [...prevProducts, ...newProducts]);
+      fetchedPagesRef.current.add(page);
+      loadingRef.current = false;
+    });
+  }, [page]);
 
   function addToCart(productId: number, quantity: number) {
     setProducts(products.map(product => {
