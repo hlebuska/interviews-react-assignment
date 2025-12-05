@@ -2,20 +2,24 @@ import { Box, CircularProgress, Grid, Typography } from "@mui/material";
 import { useInfiniteProducts } from "../../features/products/hooks/use-infinite-products";
 import { ProductCard } from "../../features/products/ui/product-card";
 import { useCart } from "../../features/cart/hooks/use-cart";
-import SearchAppBar from "../../SearchAppBar";
+import ProductSearchBar from "../../features/products/ui/product-search-bar";
 import { Categories } from "../../Categories";
 import { useProductSearch } from "../../features/products/hooks/use-product-search";
+import { useCategories } from "../../features/products/hooks/use-categories";
 
 export const ShopPage = () => {
   const { products, loading, allFetched } = useInfiniteProducts();
   const { addToCart, isProductLoading, getProductQuantity } = useCart();
   const {searchValue, setSearchValue, searchedProducts} = useProductSearch({unfilteredProducts: products});
+  const {categories, toggleCategory} = useCategories()
+
+  console.log("Selected categories:", categories);
 
   return (
     <Box>
-      <SearchAppBar onSearchChange={setSearchValue} searchValue={searchValue} />
+      <ProductSearchBar onSearchChange={setSearchValue} searchValue={searchValue} />
       <Box flex={1} display="flex" flexDirection="row">
-        <Categories />
+        <Categories categories={categories} onCategorySelect={(selectedCategory) => toggleCategory(selectedCategory)}/>
         <Box flex={1}>
           <Box overflow="scroll" height="100%">
             <Grid container spacing={2} p={2}>

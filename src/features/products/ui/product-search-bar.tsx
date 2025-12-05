@@ -7,8 +7,8 @@ import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import { Badge } from "@mui/material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import { useCart } from "./features/cart/hooks/use-cart";
-import { useDebounce } from "./shared/hooks/useDebounce";
+import { useCart } from "../../cart/hooks/use-cart";
+import { useDebounce } from "../../../shared/hooks/useDebounce";
 import { useState } from "react";
 import { useEffect } from "react";
 
@@ -60,13 +60,13 @@ interface SearchAppBarProps {
   searchValue?: string;
 }
 
-export default function SearchAppBar({
+export default function ProductSearchBar({
   onSearchChange,
   searchValue,
 }: SearchAppBarProps) {
   const { cart } = useCart();
   const [input, setInput] = useState(searchValue || "");
-  const debounced = useDebounce(input, 400);
+  const debounced = useDebounce(input, 250);
 
   useEffect(() => {
     onSearchChange?.(debounced);

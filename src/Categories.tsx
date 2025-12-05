@@ -1,17 +1,48 @@
-import { Box, List, ListItem, ListItemButton, ListItemText } from '@mui/material';
+import {
+  Box,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+} from "@mui/material";
+
+const categories_const = [
+  "Laptops",
+  "Smartphones",
+  "Tablets",
+  "Accessories",
+  "Audio",
+  "Gaming",
+  "Wearables",
+  "Cameras",
+];
 
 const drawerWidth = 180;
 
-const categories = ['Laptops', 'Smartphones', 'Tablets', 'Accessories', 'Audio', 'Gaming', 'Wearables', 'Cameras'];
+interface CategoriesProps {
+  categories: string[];
+  onCategorySelect?: (category: string) => void;
+}
 
-export const Categories = () => {
+export const Categories = ({
+  categories,
+  onCategorySelect,
+}: CategoriesProps) => {
   return (
-    <Box minWidth={drawerWidth} sx={{ borderRight: '1px solid grey' }}>
+    <Box minWidth={drawerWidth} sx={{ borderRight: "1px solid grey" }}>
       <List>
-        {categories.map((text) => (
+        {categories_const?.map((text) => (
           <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemText primary={text}/>
+            <ListItemButton
+              onClick={() => onCategorySelect?.(text)}
+              style={{
+                backgroundColor: categories.includes(text)
+                  ? "dodgerblue"
+                  : "white",
+                color: categories.includes(text) ? "white" : "black"
+              }}
+            >
+              <ListItemText primary={text} />
             </ListItemButton>
           </ListItem>
         ))}

@@ -109,6 +109,14 @@ I decided to use context for cart, as it should be global and either way connect
 - Performance optimization (debouncing, unnecessary re-renders)
 - UX polish
 
+**Completion** 
+I moved categories and search inside the shop page, because they belong specifically there and to avoid creating more context for them. (locallity )
+
+Search and Categories features could be implemented with Generics to apply to any type of data and moved to a separate feature. But I decided to make it domain-specific (products) and make it part of product logic. (for deeper customization)
+
+I implemented categories with a functional method. I keep a set of all selected categories, which is used for sorting products needed to display. 
+
+
 ---
 
 ### Challenge #3: Performance Optimization ⭐⭐⭐
