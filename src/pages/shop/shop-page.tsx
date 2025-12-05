@@ -71,7 +71,7 @@ export const ShopPage = () => {
                 </Grid>
               )}
 
-              {allFetched && (
+              {allFetched && !searchValue && (
                 <Grid
                   item
                   xs={12}

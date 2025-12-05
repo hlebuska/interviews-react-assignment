@@ -19,12 +19,12 @@ export const useInfiniteProducts = () => {
 
   // todo: debounce? 
   const handleScroll = () => {
-      if (loadingRef.current || allFetchedRef.current) return;
+      if (loadingRef.current || allFetchedRef.current || !elementRef.current) return;
 
-      const lowestFrame = document.documentElement.scrollHeight - document.documentElement.clientHeight
-      const threshold = document.documentElement.clientHeight * 0.5
+      const lowestFrame = elementRef.current?.scrollHeight! - elementRef.current?.clientHeight!
+      const threshold = elementRef.current?.clientHeight! * 0.3
 
-      if (document.documentElement.scrollTop >= lowestFrame - threshold) {
+      if (elementRef.current?.scrollTop! >= lowestFrame - threshold) {
         setPage((prevPage) => prevPage + 1);
         loadingRef.current = true;
         setLoading(true);

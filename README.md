@@ -62,7 +62,7 @@ Build a web application for **TechHub**, gotech's consumer electronics e-commerc
 **Context**: A junior developer started building the product listing page but couldn't implement proper pagination. Currently, the app fetches ALL products at once (`limit=200`), which won't scale.
 
 **Your Tasks**:
-1. Implement **infinite scroll** pagination (load more products as user scrolls) x
+1. Implement **infinite scroll** pagination (load more products as user scrolls) x TODO: FIX after changing 
 2. Refactor the `Products` component for better maintainability x
 3. Add proper loading states x
 4. Fix the missing `key` prop warning (hint: check Grid vs Card placement) x
@@ -102,7 +102,7 @@ I decided to use context for cart, as it should be global and either way connect
 **Bonus**:
 - Add price range filter
 - Add sorting options (price low-to-high, name A-Z, etc.)
-- Show result count
+- Show result count x
 
 **Evaluation Focus**:
 - State management strategy
