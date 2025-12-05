@@ -73,6 +73,14 @@ Build a web application for **TechHub**, gotech's consumer electronics e-commerc
 - Proper React hooks usage
 - User experience during loading
 
+**Completion** 
+
+note: using refs when working with event listeners as they operate outside of react cycle
+
+i decided to split products and cart into two separate features
+
+i could use context for cart, as it should be global and either way connected in app
+
 ---
 
 ### Challenge #2: Advanced Search & Filtering ⭐⭐
@@ -201,6 +209,8 @@ All endpoints are mocked with MSW:
 ## How to Run
 
 <!-- Add your name and 🚀 emoji here if you read the hidden message! -->
+
+Gleb Vassyutinskiy 🚀
 
 ```bash
 # Install dependencies
