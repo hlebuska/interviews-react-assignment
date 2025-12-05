@@ -45,10 +45,12 @@ export const Products = ({ onCartChange }: { onCartChange: (cart: Cart) => void 
   const [products, setProducts] = useState<Product[]>([]);
   const [page, setPage] = useState(0);
   const fetchedPagesRef = useRef<Set<number>>(new Set()); //to avoid dublicate fetches, strict mode bug
+
   const allFetchedRef = useRef(false); // stop fetching when all products are fetched
+  const [allFetched, setAllFetched] = useState(false); // used for rendering logic (show message when all fetched)
 
-
-  const loadingRef = useRef(false);
+  const loadingRef = useRef(false); //used for internal logic 
+  const [loading, setLoading] = useState(false); //used for rendering loading logic
 
   // todo: debounce? 
   const handleScroll = () => {
@@ -63,6 +65,7 @@ export const Products = ({ onCartChange }: { onCartChange: (cart: Cart) => void 
       if (document.documentElement.scrollTop >= lowestFrame - threshold) {
         setPage((prevPage) => prevPage + 1);
         loadingRef.current = true;
+        setLoading(true);
       }
   }
   useEffect(() => {
@@ -74,6 +77,7 @@ export const Products = ({ onCartChange }: { onCartChange: (cart: Cart) => void 
     fetchProducts(page).then(newProducts => {
       //check if page was already fetched
       if( fetchedPagesRef.current.has(page)) {
+        setLoading(false);
         loadingRef.current = false;
         return;
       }
@@ -81,12 +85,16 @@ export const Products = ({ onCartChange }: { onCartChange: (cart: Cart) => void 
       //handle last fetch
       if (newProducts.length === 0) {
         allFetchedRef.current = true;
+        setAllFetched(true);
+        
         loadingRef.current = false;
+        setLoading(false);
         return;
       }
 
       setProducts(prevProducts => [...prevProducts, ...newProducts]);
       fetchedPagesRef.current.add(page);
+      setLoading(false);
       loadingRef.current = false;
     });
   }, [page]);
@@ -176,6 +184,14 @@ export const Products = ({ onCartChange }: { onCartChange: (cart: Cart) => void 
             </Card>
           </Grid>
         ))}
+        {loading && <Grid item xs={4} style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+          <CircularProgress></CircularProgress> 
+        </Grid>}
+        {allFetched && <Grid item xs={12} style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+          <Typography variant="body1" component="div" my={2}>
+            All products are loaded.
+          </Typography>
+        </Grid>}
       </Grid>
     </Box>
   );
