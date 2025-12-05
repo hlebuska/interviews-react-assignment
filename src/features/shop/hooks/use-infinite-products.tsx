@@ -18,12 +18,9 @@ export const useInfiniteProducts = () => {
   // todo: debounce? 
   const handleScroll = () => {
       if (loadingRef.current || allFetchedRef.current) return;
-      console.log('all fetched:', allFetchedRef.current);
 
       const lowestFrame = document.documentElement.scrollHeight - document.documentElement.clientHeight
-
       const threshold = document.documentElement.clientHeight * 0.5
-
 
       if (document.documentElement.scrollTop >= lowestFrame - threshold) {
         setPage((prevPage) => prevPage + 1);
@@ -58,47 +55,12 @@ export const useInfiniteProducts = () => {
 
       setProducts(prevProducts => [...prevProducts, ...newProducts]);
       fetchedPagesRef.current.add(page);
+      
       setLoading(false);
       loadingRef.current = false;
     });
   }, [page]);
 
-  function addToCart(productId: number, quantity: number) {
-    setProducts(products.map(product => {
-      if (product.id === productId) {
-        return {
-          ...product,
-          loading: true,
-        };
-      }
-      return product;
-    }));
 
-    //take it to a sep hook 
-    fetch('/cart', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ productId, quantity }),
-    }).then(async response => {
-      if (response.ok) {
-        const cart = await response.json();
-        setProducts(products.map(product => {
-          if (product.id === productId) {
-            return {
-              ...product,
-              itemInCart: (product.itemInCart || 0) + quantity,
-              loading: false,
-            };
-          }
-          return product;
-        }));
-        // onCartChange(cart);
-
-      }
-    });
-  }
-
-  return { products, addToCart, loading, allFetched };
+  return { products, loading, allFetched };
 }
