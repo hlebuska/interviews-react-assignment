@@ -1,17 +1,17 @@
-import { useEffect, useState } from 'react';
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
 import {
   Box,
   Card,
   CardActions,
   CardContent,
   CardMedia,
+  CircularProgress,
   Grid,
   IconButton,
   Typography,
-  CircularProgress,
 } from '@mui/material';
-import RemoveIcon from '@mui/icons-material/Remove';
-import AddIcon from '@mui/icons-material/Add';
+import { useEffect, useState } from 'react';
 import { HeavyComponent } from './HeavyComponent.tsx';
 
 export type Product = {
@@ -29,13 +29,45 @@ export type Cart = {
   totalPrice: number;
   totalItems: number;
 }
+
+
+//todo: move outside
+const fetchProducts = async (page: number): Promise<Product[]> => {
+  const response = await fetch(`/products?page=${page}&limit=0`);
+  const data = await response.json();
+  return data.products;
+}
+
+
 export const Products = ({ onCartChange }: { onCartChange: (cart: Cart) => void }) => {
 
   const [products, setProducts] = useState<Product[]>([]);
+  const [page, setPage] = useState(0);
+  const [loading, setLoading] = useState(false);
+
+  const handleScroll = () => {
+      const lowestFrame = document.documentElement.scrollHeight - document.documentElement.clientHeight
+
+      const threshold = document.documentElement.clientHeight * 0.02
+
+      if (document.documentElement.scrollTop >= lowestFrame - threshold) {
+        console.log('Reached bottom')
+        if (!loading) {
+          setPage((prevPage) => prevPage + 1);
+        }
+      }
+  }
 
   useEffect(() => {
-    fetch('/products?limit=200').then(response => response.json()).then(data => setProducts(data.products));
+      document.addEventListener('scroll', handleScroll);
+    return () => document.removeEventListener('scroll', handleScroll)
   }, []);
+
+  useEffect(() => {
+    setLoading(true);
+    fetchProducts(page).then(newProducts => setProducts([...products, ...newProducts])).then(() => setLoading(false));
+  }, [page]);
+
 
   function addToCart(productId: number, quantity: number) {
     setProducts(products.map(product => {
@@ -47,6 +79,7 @@ export const Products = ({ onCartChange }: { onCartChange: (cart: Cart) => void 
       }
       return product;
     }));
+    //refactor 
     fetch('/cart', {
       method: 'POST',
       headers: {
@@ -73,10 +106,10 @@ export const Products = ({ onCartChange }: { onCartChange: (cart: Cart) => void 
   }
 
   return (
-    <Box overflow="scroll" height="100%">
+    <Box overflow="scroll" height="100%" >
       <Grid container spacing={2} p={2}>
         {products.map(product => (
-          <Grid item xs={4}>
+          <Grid item xs={4} key={product.id}>
             {/* Do not remove this */}
             <HeavyComponent/>
             <Card key={product.id} style={{ width: '100%' }}>
