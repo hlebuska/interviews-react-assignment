@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import { HeavyComponent } from "../../../HeavyComponent";
 import { Product } from "../model/types";
+import { memo } from "react";
 
 interface ProductCardProps {
   product: Product;
@@ -20,14 +21,14 @@ interface ProductCardProps {
   isLoading: boolean;
   cartQuantity: number;
 }
-
-export function ProductCard({ product, onAddToCart, isLoading, cartQuantity }: ProductCardProps) {
+  
+export const ProductCard = memo(({ product, onAddToCart, isLoading, cartQuantity }: ProductCardProps) => {
   return (
     <Grid item xs={4} key={product.id}>
       {/* Do not remove this */}
       <HeavyComponent />
       <Card key={product.id} style={{ width: "100%" }}>
-        <CardMedia component="img" height="150" image={product.imageUrl} />
+        <CardMedia component="img" height="150" image={'https://via.assets.so/img.jpg?w=400&h=150&gradientFrom=56CCF2&gradientTo=2F80ED&gradientAngle=135&f=png'} />
         <CardContent>
           <Typography gutterBottom variant="h6" component="div">
             {product.name}
@@ -83,4 +84,4 @@ export function ProductCard({ product, onAddToCart, isLoading, cartQuantity }: P
       </Card>
     </Grid>
   );
-}
+}); 

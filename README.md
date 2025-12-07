@@ -62,9 +62,9 @@ Build a web application for **TechHub**, gotech's consumer electronics e-commerc
 **Context**: A junior developer started building the product listing page but couldn't implement proper pagination. Currently, the app fetches ALL products at once (`limit=200`), which won't scale.
 
 **Your Tasks**:
-1. Implement **infinite scroll** pagination (load more products as user scrolls) x TODO: FIX after changing 
+1. Implement **infinite scroll** pagination (load more products as user scrolls) x 
 2. Refactor the `Products` component for better maintainability x
-3. Add proper loading states x
+3. Add proper loading states x TODO: add loading while debounce 
 4. Fix the missing `key` prop warning (hint: check Grid vs Card placement) x
 5. Handle edge cases (empty states, API errors) TODO
 
@@ -75,14 +75,14 @@ Build a web application for **TechHub**, gotech's consumer electronics e-commerc
 
 **Completion** 
 
-I implemented infinite scroll without external libs (would use Tanstack Query), it manually checks user scrolls a request subsequent pages of data. Loading and erros are properly handled. 
+I implemented infinite scroll without external libs (would use Tanstack Query), it manually checks user scrolls and request subsequent pages of data. Loading and erros are properly handled. 
 
-I used double variables for loading and allDataFetched flags, one with state and one with refs. (first is used for rendering, second for internal logic)
+I used double variables for loading and allDataFetched flags, one with state and one with refs. (first is used for rendering, second for event listeners logic)
 note: using refs when working with event listeners as they operate outside of react cycle
 
 I decided to split products and cart into two separate features. It sounds like a good idea as for separation of concerns, as well as for future features (multistep cart).
 
-I decided to use context for cart, as it should be global and either way connected in app.
+I decided to use context for cart, as it should be global and either way connected in highest layer (app).
 
 ---
 
@@ -95,13 +95,13 @@ I decided to use context for cart, as it should be global and either way connect
 2. Connect category buttons to filter products x
 3. Allow **combining** search + category filters x
 4. Add debouncing to search input (performance optimization) x
-5. Update URL query parameters to make filters shareable
+5. Update URL query parameters to make filters shareable x
 6. Add a "Clear Filters" option x
 7. Show active filter indicators x
 
 **Bonus**:
-- Add price range filter
-- Add sorting options (price low-to-high, name A-Z, etc.)
+- Add price range filter x
+- Add sorting options (price low-to-high, name A-Z, etc.) 
 - Show result count x
 
 **Evaluation Focus**:
@@ -112,11 +112,11 @@ I decided to use context for cart, as it should be global and either way connect
 **Completion** 
 I moved categories and search inside the shop page, because they belong specifically there and to avoid creating more context for them. (locallity )
 
-Search and Categories features could be implemented with Generics to apply to any type of data and moved to a separate feature. But I decided to make it domain-specific (products) and make it part of product logic. (for deeper customization)
+Search and Categories features could be implemented with Generics to apply to any type of data and moved to a separate feature. (more reusable, but less customizable). But I decided to make it domain-specific (products) and make it part of product logic for better customization in future. 
 
-I implemented categories with a functional method. I keep a set of all selected categories, which is used for sorting products needed to display. 
+I implemented categories with a functional approach. I keep a set of all selected categories, which is used for sorting products needed to display. Then, I filter products through search first and use the resulting products array to filter by category. This allows combined search + category and any other potential filtering features together.
 
-
+Added slider for price range + made it work with urls 
 ---
 
 ### Challenge #3: Performance Optimization ⭐⭐⭐

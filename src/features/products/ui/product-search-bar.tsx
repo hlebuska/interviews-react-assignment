@@ -9,7 +9,7 @@ import { Badge } from "@mui/material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { useCart } from "../../cart/hooks/use-cart";
 import { useDebounce } from "../../../shared/hooks/useDebounce";
-import { useState } from "react";
+import { memo, useState } from "react";
 import { useEffect } from "react";
 
 const Search = styled("div")(({ theme }) => ({
@@ -60,10 +60,10 @@ interface SearchAppBarProps {
   searchValue?: string;
 }
 
-export default function ProductSearchBar({
+export const ProductSearchBar = memo(({
   onSearchChange,
   searchValue,
-}: SearchAppBarProps) {
+}: SearchAppBarProps) => {
   const { cart } = useCart();
   const [input, setInput] = useState(searchValue || "");
   const debounced = useDebounce(input, 250);
@@ -110,4 +110,4 @@ export default function ProductSearchBar({
       </AppBar>
     </Box>
   );
-}
+})

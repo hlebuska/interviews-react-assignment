@@ -7,6 +7,7 @@ import {
   ListItemButton,
   ListItemText,
 } from "@mui/material";
+import { memo } from "react";
 
 const categories_const = [
   "Laptops",
@@ -27,7 +28,7 @@ interface CategoriesProps {
   onCategoryClear?: () => void;
 }
 
-export const Categories = ({
+export const Categories = memo(({
   categories,
   onCategorySelect,
   onCategoryClear
@@ -55,4 +56,4 @@ export const Categories = ({
     <ListItemButton onClick={() => onCategoryClear?.()} style={{color: 'dodgerblue'}}>Clear All</ListItemButton>
     </Box>
   );
-};  
+});  
