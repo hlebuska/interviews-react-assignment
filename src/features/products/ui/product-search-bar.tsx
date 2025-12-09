@@ -72,6 +72,8 @@ export const ProductSearchBar = memo(({
     onSearchChange?.(debounced);
   }, [debounced])
 
+
+
   return (
     <Box>
       <AppBar position="relative">

@@ -69,7 +69,7 @@ export const ProductCard = memo(
                 disabled={isProductLoading(product.id)}
                 aria-label="delete"
                 size="small"
-                onClick={() => addToCart(product.id, -1)}
+                onClick={() => addToCart(product, -1)}
               >
                 <RemoveIcon fontSize="small" />
               </IconButton>
@@ -82,7 +82,7 @@ export const ProductCard = memo(
                 disabled={isProductLoading(product.id)}
                 aria-label="add"
                 size="small"
-                onClick={() => addToCart(product.id, 1)}
+                onClick={() => addToCart(product, 1)}
               >
                 <AddIcon fontSize="small" />
               </IconButton>
