@@ -9,6 +9,7 @@ import { Stepper } from "../../../shared/ui/stepper";
 import { StepperPage } from "../../../shared/model/types";
 import { CartStep1 } from "./cart-step1";
 import { CartStep2 } from "./cart-step2";
+import { CartStep3 } from "./cart-step3";
 
 export default function Cart() {
   const { cart } = useCart();
@@ -35,9 +36,7 @@ export default function Cart() {
       id: "page3",
       label: "Page 3",
       content: (
-        <Typography variant="body1" sx={{ p: 2 }}>
-          Page 3 Content
-        </Typography>
+        <CartStep3></CartStep3>
       ),
     },
     {
