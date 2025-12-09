@@ -1,17 +1,17 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-  Box,
-  Button,
-  FormControl,
-  FormControlLabel,
-  FormHelperText,
-  FormLabel,
-  Radio,
-  RadioGroup,
-  TextField,
-  Typography,
+    Box,
+    Button,
+    FormControl,
+    FormControlLabel,
+    FormHelperText,
+    FormLabel,
+    Radio,
+    RadioGroup,
+    TextField,
+    Typography,
 } from "@mui/material";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import { useStepperContext } from "../../../shared/context/stepper-context";
@@ -56,6 +56,8 @@ export const CartStep2 = () => {
 
   const { nextPage } = useStepperContext();
 
+  const [isLoaded, setIsLoaded] = useState(false);
+
   const formData = watch();
 
   // Load from local storage on mount
@@ -69,14 +71,17 @@ export const CartStep2 = () => {
         console.error("Failed to parse saved shipping details:", error);
       }
     }
+    setIsLoaded(true);
   }, [reset]);
 
   useEffect(() => {
-    localStorage.setItem(
-      "storage_key_shipping_details",
-      JSON.stringify(formData)
-    );
-  }, [formData]);
+    if (isLoaded) {
+      localStorage.setItem(
+        "storage_key_shipping_details",
+        JSON.stringify(formData)
+      );
+    }
+  }, [formData, isLoaded]);
 
   const onSubmit = (data: ShippingFormData) => {
     console.log("Form is valid:", data);
