@@ -8,6 +8,7 @@ import { useState } from "react";
 import { Stepper } from "../../../shared/ui/stepper";
 import { StepperPage } from "../../../shared/model/types";
 import { CartStep1 } from "./cart-step1";
+import { CartStep2 } from "./cart-step2";
 
 export default function Cart() {
   const { cart } = useCart();
@@ -27,9 +28,7 @@ export default function Cart() {
       id: "page2",
       label: "Page 2",
       content: (
-        <Typography variant="body1" sx={{ p: 2 }}>
-          Page 2 Content
-        </Typography>
+        <CartStep2 />
       ),
     },
     {
@@ -80,10 +79,8 @@ export default function Cart() {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2" sx={{ mb: 2 }}>
-            Cart Checkout
-          </Typography>
+        <Box sx={style} >
+    
           <Stepper pages={pages} />
         </Box>
       </Modal>

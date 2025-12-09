@@ -169,10 +169,10 @@ Rendering cost dropped ~25–30%
 Build a **4-step checkout wizard**:
 
 **Step 1: Cart Review**
-- Display cart items with quantities
-- Show subtotal, tax (calculate as 10%), and total
-- Allow editing quantities or removing items
-- Show empty cart state
+- Display cart items with quantities x
+- Show subtotal, tax (calculate as 10%), and total x
+- Allow editing quantities or removing items x
+- Show empty cart state x
 
 **Step 2: Shipping Details**
 - Form: Full name, address, city, postal code, phone
@@ -212,6 +212,8 @@ Build a **4-step checkout wizard**:
 - UX and accessibility
 - Error handling
 
+**Completion** 
+Tell about how i made stepper!!
 
 ---
 

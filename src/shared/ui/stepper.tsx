@@ -1,6 +1,8 @@
-import { Button } from '@mui/material';
+import { Box, Button } from '@mui/material';
+import { StepperProvider } from '../context/stepper-context';
 import { useStepper } from '../hooks/useStepper';
 import { StepperPage } from '../model/types';
+import { ArrowBack } from '@mui/icons-material';
 
 export interface StepperProps {
   pages: StepperPage[];
@@ -8,8 +10,6 @@ export interface StepperProps {
   showStepIndicators?: boolean;
   showNavigation?: boolean;
   onStepChange?: (step: number) => void;
-  nextButtonLabel?: string;
-  prevButtonLabel?: string;
   className?: string;
 }
 
@@ -19,25 +19,17 @@ export const Stepper = ({
   showStepIndicators = true,
   showNavigation = true,
   onStepChange,
-  nextButtonLabel = 'Next',
-  prevButtonLabel = 'Previous',
   className = '',
 }: StepperProps) => {
   const {
     currentPage,
     currentStep,
     isFirstStep,
-    isLastStep,
     nextPage,
     prevPage,
     goToStep,
     totalSteps,
   } = useStepper({ pages, initialStep });
-
-  const handleNext = () => {
-    nextPage();
-    onStepChange?.(currentStep + 1);
-  };
 
   const handlePrev = () => {
     prevPage();
@@ -50,70 +42,63 @@ export const Stepper = ({
   };
 
   return (
-    <div className={`stepper ${className}`}>
-      {showStepIndicators && (
-        <div className="stepper-indicators" style={styles.indicators}>
-          {pages.map((page, index) => (
-            <div
-              key={page.id}
-              className={`stepper-indicator ${
-                index === currentStep ? 'active' : ''
-              } ${index < currentStep ? 'completed' : ''}`}
-              style={{
-                ...styles.indicator,
-                ...(index === currentStep ? styles.activeIndicator : {}),
-                ...(index < currentStep ? styles.completedIndicator : {}),
-              }}
-              onClick={() => handleGoToStep(index)}
-            >
+    <StepperProvider value={{ nextPage, prevPage, goToStep, currentStep }}>
+      <Box p={3} className={`stepper ${className}`}>
+        {showStepIndicators && (
+          <div className="stepper-indicators" style={styles.indicators}>
+            {pages.map((page, index) => (
               <div
+                key={page.id}
+                className={`stepper-indicator ${
+                  index === currentStep ? 'active' : ''
+                } ${index < currentStep ? 'completed' : ''}`}
                 style={{
-                  ...styles.indicatorCircle,
-                  ...(index === currentStep
-                    ? styles.activeIndicatorCircle
-                    : {}),
-                  ...(index < currentStep
-                    ? styles.completedIndicatorCircle
-                    : {}),
+                  ...styles.indicator,
+                  ...(index === currentStep ? styles.activeIndicator : {}),
+                  ...(index < currentStep ? styles.completedIndicator : {}),
                 }}
+                onClick={() => handleGoToStep(index)}
               >
-                {index + 1}
+                <div
+                  style={{
+                    ...styles.indicatorCircle,
+                    ...(index === currentStep
+                      ? styles.activeIndicatorCircle
+                      : {}),
+                    ...(index < currentStep
+                      ? styles.completedIndicatorCircle
+                      : {}),
+                  }}
+                >
+                  {index + 1}
+                </div>
+                <span style={styles.indicatorLabel}>{page.label}</span>
               </div>
-              <span style={styles.indicatorLabel}>{page.label}</span>
-            </div>
-          ))}
-        </div>
-      )}
-
-      <div className="stepper-content" style={styles.content}>
-        {currentPage.content}
-      </div>
-
-      {showNavigation && (
-        <div className="stepper-navigation" style={styles.navigation}>
-          <Button
-            onClick={handlePrev}
-            disabled={isFirstStep}
-            className="stepper-prev-button"
-          >
-            {prevButtonLabel}
-          </Button>
-
-          <div style={styles.stepCounter}>
-            Step {currentStep + 1} of {totalSteps}
+            ))}
           </div>
+        )}
 
-          <Button
-            onClick={handleNext}
-            disabled={isLastStep}
-
-            className="stepper-next-button"
-          >
-            {nextButtonLabel}
-          </Button>
+        <div className="stepper-content" style={styles.content}>
+          {currentPage.content}
         </div>
-      )}
-    </div>
+
+        {showNavigation && (
+          <div className="stepper-navigation" style={styles.navigation}>
+            <Button
+              onClick={handlePrev}
+              disabled={isFirstStep}
+              className="stepper-prev-button"
+            >
+                <ArrowBack></ArrowBack>
+            </Button>
+
+            <div style={styles.stepCounter}>
+              Step {currentStep + 1} of {totalSteps}
+            </div>
+          </div>
+        )}
+      </Box>
+    </StepperProvider>
   );
 };
 

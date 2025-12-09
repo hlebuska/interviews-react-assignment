@@ -1,20 +1,25 @@
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import {
     Box,
+    Button,
     Divider,
     Typography
 } from "@mui/material";
+import { useStepperContext } from '../../../shared/context/stepper-context';
 import { useCart } from "../hooks/use-cart";
 import { CartItemCard } from "./cart-item-card";
 
 export const CartStep1 = () => {
-  const { cart, addToCart, isProductLoading } = useCart();
-
-
+  const { cart} = useCart();
+  const { nextPage } = useStepperContext();
 
   const subtotal = cart?.totalPrice || 0;
   const tax = subtotal * 0.1;
   const total = subtotal + tax;
+
+  const handleSubmit = () => {
+    nextPage();
+  };
 
   if (!cart || cart.items.length === 0) {
     return (
@@ -73,6 +78,14 @@ export const CartStep1 = () => {
           </Typography>
         </Box>
       </Box>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleSubmit}
+        sx={{ width: "100%" }}
+      >
+        Continue
+      </Button>
     </Box>
   );
 };
