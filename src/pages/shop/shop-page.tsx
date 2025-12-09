@@ -1,13 +1,13 @@
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import { Box, Divider, IconButton, Slider, Typography } from "@mui/material";
+import { useCallback } from "react";
+import { useCategories } from "../../features/products/hooks/use-categories";
 import { useInfiniteProducts } from "../../features/products/hooks/use-infinite-products";
 import { usePriceRange } from "../../features/products/hooks/use-price-range";
 import { useProductSearch } from "../../features/products/hooks/use-product-search";
+import { Categories } from "../../features/products/ui/Categories";
 import { ProductList } from "../../features/products/ui/product-list";
 import { ProductSearchBar } from "../../features/products/ui/product-search-bar";
-import { useCategories } from "../../features/products/hooks/use-categories";
-import { Categories } from "../../features/products/ui/Categories";
-import { useCallback } from "react";
 
 const marks = [
   {

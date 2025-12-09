@@ -5,12 +5,11 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
-import { Badge } from "@mui/material";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { useCart } from "../../cart/hooks/use-cart";
 import { useDebounce } from "../../../shared/hooks/useDebounce";
 import { memo, useState } from "react";
 import { useEffect } from "react";
+import Cart from "../../cart/ui/cart";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -105,9 +104,7 @@ export const ProductSearchBar = memo(({
               $ {(cart?.totalPrice || 0).toFixed(2)}
             </Typography>
           </Box>
-          <Badge badgeContent={cart?.totalItems || 0} color="secondary">
-            <ShoppingCartIcon />
-          </Badge>
+          <Cart></Cart>
         </Toolbar>
       </AppBar>
     </Box>
