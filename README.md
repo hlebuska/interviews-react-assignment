@@ -134,9 +134,6 @@ Added slider for price range + made it work with urls
 4. Prevent unnecessary re-renders x
 5. **Provide proof** of performance improvements (screenshots, metrics, profiler data) TODO 
 
-After
-![alt text](image.png)
-
 **Bonus**:
 - Implement virtual scrolling for large product lists
 - Add request cancellation for outdated searches
@@ -150,8 +147,16 @@ After
 Split ShopPage into 3 parts - searchBar, Categories and ProductList. This allows them to memoize more precisely. 
 
 Created custom memo for ProductList as it uses references (arrays) to improve performance. 
-
+Added optimistic updates for ProductCard and Cart. 
 Change addToCard to use product instead of productID so we can use in optimistic updates (save snapshot of state)
+
+Before
+![alt text](image-1.png)
+
+After
+![alt text](image.png)
+Rendering cost dropped ~25–30%
+
 
 ---
 
